@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaBlaze | Free Fire Cheats</title>
+    <link rel="icon" href="https://i.ibb.co/LD1qZJwY/imagen-2025-06-24-214420391.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --neon-pink: #ff00aa;
+            --neon-pink-light: #ff66cc;
+            --neon-pink-dark: #cc0088;
+            --dark-bg: #0a0a12;
+            --darker-bg: #050508;
+            --light-text: #f0f0f0;
+            --card-bg: rgba(30, 10, 30, 0.8);
+            --card-border: rgba(255, 0, 170, 0.2);
+            --glow: 0 0 15px rgba(255, 0, 170, 0.7);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-user-select: none; 
+            -moz-user-select: none;   
+            -ms-user-select: none;    
+            user-select: none;  
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-color: var(--darker-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            position: relative;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 0, 170, 0.2);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 50px;
+            margin-right: 10px;
+            filter: drop-shadow(0 0 10px var(--neon-pink));
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--neon-pink);
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        /* Navigation */
+        nav {
+            position: relative;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            position: relative;
+            padding: 5px 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-pink);
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--neon-pink);
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--neon-pink);
+            text-shadow: var(--glow);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: var(--light-text);
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px;
+            width: 280px;
+            text-align: center;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--glow);
+            border-color: var(--neon-pink);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--neon-pink);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--neon-pink-light);
+        }
+
+        /* Products Section */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            display: inline-block;
+            color: var(--neon-pink);
+            position: relative;
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background: var(--neon-pink);
+            bottom: -10px;
+            left: 25%;
+            border-radius: 3px;
+            box-shadow: var(--glow);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 20px;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            position: relative;
+            height: 400px;
+        }
+
+        .product-card:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                transparent,
+                rgba(255, 0, 170, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .product-card:hover:before {
+            animation: shine 1.5s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow);
+            border-color: var(--neon-pink);
+            height: auto;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border: 1px solid var(--neon-pink);
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .product-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--neon-pink-light);
+        }
+
+        .product-card .price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--neon-pink);
+            margin: 15px 0;
+            text-shadow: 0 0 5px var(--neon-pink);
+        }
+
+        .product-card .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--neon-pink);
+            border: 1px solid var(--neon-pink);
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .product-card .btn:hover {
+            background: var(--neon-pink);
+            color: var(--dark-bg);
+            box-shadow: var(--glow);
+        }
+
+        .product-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .product-card:hover .product-details {
+            max-height: 1000px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 0, 170, 0.3);
+            padding-top: 20px;
+        }
+
+        .product-details ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .product-details li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .product-details li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--neon-pink);
+        }
+
+        /* VIP Section */
+        .vip-card {
+            background: linear-gradient(135deg, rgba(255, 0, 170, 0.1), rgba(204, 0, 136, 0.1));
+            border: 1px solid var(--neon-pink);
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .vip-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent, rgba(255, 0, 170, 0.1));
+            z-index: -1;
+        }
+
+        .vip-icon {
+            font-size: 3rem;
+            color: var(--neon-pink);
+            margin-bottom: 20px;
+            text-shadow: var(--glow);
+        }
+
+        .vip-card h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--neon-pink);
+        }
+
+        .vip-card .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--neon-pink);
+            margin: 20px 0;
+            text-shadow: var(--glow);
+        }
+
+        /* Discord Section */
+        .discord-section {
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(255, 0, 170, 0.05), rgba(204, 0, 136, 0.05));
+            position: relative;
+            border-top: 1px solid rgba(255, 0, 170, 0.2);
+            border-bottom: 1px solid rgba(255, 0, 170, 0.2);
+        }
+
+        .discord-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255, 0, 170, 0.03)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+            background-size: cover;
+            z-index: -1;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 15px 30px;
+            background: var(--neon-pink);
+            color: var(--dark-bg);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            margin-top: 20px;
+            box-shadow: var(--glow);
+        }
+
+        .discord-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px var(--neon-pink);
+            background: var(--neon-pink-light);
+        }
+
+        .discord-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        /* About Section */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .developer-info {
+            margin-top: 30px;
+            padding: 30px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--glow);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            color: var(--neon-pink);
+            font-size: 1.2rem;
+            transition: var(--transition);
+            border: 1px solid var(--neon-pink);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: var(--neon-pink);
+            color: var(--dark-bg);
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker-bg);
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 80px;
+            position: relative;
+        }
+
+        footer:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--neon-pink);
+            box-shadow: var(--glow);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--neon-pink);
+            color: var(--dark-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 99;
+            box-shadow: var(--glow);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 10px var(--neon-pink);
+            }
+            50% {
+                transform: scale(1.1);
+                text-shadow: 0 0 20px var(--neon-pink);
+            }
+            100% {
+                transform: scale(1);
+                text-shadow: 0 0 10px var(--neon-pink);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+            }
+            to {
+                text-shadow: 0 0 20px var(--neon-pink), 0 0 30px var(--neon-pink), 0 0 40px var(--neon-pink-dark);
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                opacity: 0;
+                transform: rotate(45deg) translate(-30%, -30%);
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: rotate(45deg) translate(30%, 30%);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .feature-card {
+                width: 220px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            .logo {
+                margin-bottom: 20px;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                z-index: 100;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: var(--darker-bg);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: var(--transition);
+                z-index: 99;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+                border-left: 1px solid var(--neon-pink);
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .feature-card {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .product-card {
+                height: 380px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .vip-card {
+                padding: 30px 20px;
+            }
+            
+            .vip-card h3 {
+                font-size: 1.5rem;
+            }
+
+            .logo-text {
+                font-size: 1.5rem;
+            }
+
+            .logo-img {
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <img src="https://i.ibb.co/LD1qZJwY/imagen-2025-06-24-214420391.png" alt="NovaBlaze Logo" class="logo-img">
+                    <span class="logo-text">NovaBlaze</span>
+                </a>
+                
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav>
+                    <ul class="nav-links" id="nav-links">
+                        <li><a href="#home">Inicio</a></li>
+                        <li><a href="#products">Productos</a></li>
+                        <li><a href="#vip">VIP</a></li>
+                        <li><a href="#buy">Comprar</a></li>
+                        <li><a href="#discord">Discord</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Free Fire Hacks Premium</h1>
+            <p>Los mejores cheats para Free Fire con máxima seguridad y actualizaciones constantes. Mejora tu juego con nuestros productos de alta calidad.</p>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <h3>100% Seguro</h3>
+                    <p>Sistema de protección avanzado contra detecciones y bans.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-sync-alt feature-icon"></i>
+                    <h3>Actualizado</h3>
+                    <p>Manteniendo siempre compatibilidad con la última versión.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-headset feature-icon"></i>
+                    <h3>Soporte 24/7</h3>
+                    <p>Asistencia técnica disponible en nuestro Discord.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section" id="products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nuestros Productos</h2>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://i.ibb.co/5W4Dd5Zr/imagen-2025-06-24-220025434.png" alt="Aimbot Competitivo" class="product-image">
+                    <h3>Aimbot Competitivo</h3>
+                    <p>Perfecto para jugadores serios que buscan ventaja en ranked.</p>
+                    <div class="price">$13/mes</div>
+                    
+                    <div class="product-details">
+                        <ul>
+                            <li>Aimbots Ext (Head, Legit)</li>
+                            <li>Aimbot  Collider (Sin Bug de Personaje de mujer)</li>
+                            <li>Chams Clasicas</li>
+                            <li>Chams Skins 2D</li>
+                            <li>Chams Wukong</li>
+                            <li>Chams Orion</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://i.ibb.co/XZnyzKns/imagen-2025-06-24-220457893.png" alt="Aimbot Personalizado" class="product-image">
+                    <h3>Aimbot Perso</h3>
+                    <p>Adaptable a tu estilo de juego con múltiples configuraciones.</p>
+                    <div class="price">$17/mes</div>
+                    
+                    <div class="product-details">
+                        <ul>
+                            <li>Aimbots (Head y Legit)</li>
+                            <li>Tiro Awm</li>
+                            <li>Cambio Awm</li>
+                            <li>Cámara Pro</li>
+                            <li>Wallhack Verde, Rosa y Under</li>
+                            <li>Miras Bonitas</li>
+                            <li>Modo Fantasma</li>
+                            <li>Fixlag V1, V2</li>
+                            <li>Chams Completas</li>
+                            <li>Vision Hack</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <img src="https://i.ibb.co/svw2RRCr/imagen-2025-06-24-215851542.png" alt="ESP Lines" class="product-image">
+                    <h3>ESP Lines</h3>
+                    <p>Información visual completa de tus enemigos y objetos.</p>
+                    <div class="price">$20/mes</div>
+                    
+                    <div class="product-details">
+                        <ul>
+                            <li>Aimbots Ext (Head, Legit)</li>
+                            <li>Aimbot  Collider (Sin Bug de Personaje de mujer)</li>
+                            <li>Esp line(Rectas y Curvas)</li>
+                            <li>Esp Weapons (Armas)</li>
+                            <li>Esp Distancia</li>
+                            <li>Esp ID</li>
+                            <li>Esp Box</li>
+                            <li>Esp Bones</li>
+                            <li>Esp Vida</li>
+                            <li>Tiro Awm</li>
+                            <li>Cambio Awm</li>
+                            <li>Cámara Pro</li>
+                            <li>Wallhack Verde, Rosa y Under</li>
+                            <li>Miras Bonitas</li>
+                            <li>Modo Fantasma</li>
+                            <li>Fixlag V1, V2</li>
+                            <li>Chams Completas</li>
+                            <li>Vision Hack</li>
+                            <li>Muchas mas funciones</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://i.ibb.co/RGvtsK3K/imagen-2025-06-24-220257678.png" alt="Combo Premium" class="product-image">
+                    <h3>Bypass APK</h3>
+                    <p>Bypass para jugar contra jugadores de movil.</p>
+                    <div class="price">$20/mes</div>
+                    <div class="product-details">
+                        <ul>
+                            <li>Para Cuentas Principales</li>
+                            <li>100% Seguro</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section" id="vip">
+        <div class="container">
+            <div class="section-title">
+                <h2>Producto VIP</h2>
+            </div>
+            
+            <div class="vip-card">
+                <i class="fas fa-crown vip-icon"></i>
+                <h3>Proyecto Personalizado</h3>
+                <p>¿Necesitas algo especial? Creamos tu panel a tu medida con las funciones exactas que necesitas, y con el diseño que quieras.</p>
+                <div class="price">$100+</div>
+                <p>Precio varía según complejidad y requerimientos.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section" id="buy">
+        <div class="container">
+            <div class="section-title">
+                <h2>¿Cómo Comprar?</h2>
+            </div>
+            
+            <div class="about-content">
+                <p>Para adquirir cualquiera de nuestros productos, únete a nuestro servidor de Discord donde nuestro equipo te asistirá con el proceso de compra y configuración.</p>
+                <p>Aceptamos múltiples métodos de pago incluyendo criptomonedas para mayor privacidad.</p>
+                <p>¡Usa el código <strong>NOVAPAGE</strong> para obtener un 10% de descuento en tu primera compra!</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="discord-section" id="discord">
+        <div class="container">
+            <h2>Únete a Nuestra Comunidad</h2>
+            <p>En nuestro servidor de Discord encontrarás soporte técnico, actualizaciones, configuraciones premium y una comunidad activa de jugadores.</p>
+            <p>Además, los miembros del servidor reciben descuentos exclusivos y acceso a versiones beta.</p>
+            <a href="https://discord.gg/C8AE4ft9hN" class="discord-btn" target="_blank">
+                <i class="fab fa-discord discord-icon"></i>
+                Unirse a Discord
+            </a>
+        </div>
+    </section>
+    
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>Sobre Nosotros</h2>
+            </div>
+            
+            <div class="about-content">
+                <p>Nuestros productos son actualizados constantemente utilizando las offsets y codigos más recientes para garantizar seguridad y funcionalidad.</p>
+                
+                <div class="developer-info">
+                    <h3>Desarrollador Principal</h3>
+                    <p>MrJean</p>
+                    <p>Actualizador de offsets: <a href="https://discord.gg/vbnxmEuXS5" style="color: var(--neon-pink);">Dumper de RataLife</a></p>
+                    
+                    <div class="social-links">
+                        <a href="https://discord.gg/C8AE4ft9hN" class="social-link"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 NovaBlaze ® | By Jassmin | Page Developer <a href="https://ratalittleyt.github.io/RataLife/" style="color: var(--neon-pink);">RataLife</a></p>
+            </div>
+        </div>
+    </footer>
+    
+    <div class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        const backToTop = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ff00aa"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 2,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ff00aa",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 10,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.feature-card, .product-card, .vip-card');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        document.querySelectorAll('.feature-card, .product-card, .vip-card').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>

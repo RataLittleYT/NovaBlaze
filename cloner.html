@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaBlaze Web Duplicator</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="mobile-warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>Esta página solo está disponible en dispositivos de escritorio.</p>
+    </div>
+
+    <div class="container">
+        <header class="neon-header">
+            <h1 class="neon-text">NovaBlaze <span class="flicker">Web Duplicator</span></h1>
+            <div class="glowing-line"></div>
+        </header>
+
+        <nav class="futuristic-menu">
+            <ul>
+                <li><a href="#home" class="neon-link active"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="#how-to" class="neon-link"><i class="fas fa-question-circle"></i> Cómo usar</a></li>
+                <li><a href="#restrictions" class="neon-link"><i class="fas fa-ban"></i> Restricciones</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section id="home" class="section-active">
+                <div class="duplicator-box">
+                    <div class="holographic-card">
+                        <div class="card-content">
+                            <h2><i class="fas fa-copy"></i> Duplicar Sitio Web</h2>
+                            <div class="input-group">
+                                <input type="text" id="url-input" placeholder="https://ejemplo.com" class="neon-input">
+                                <button id="duplicate-btn" class="neon-button">
+                                    <i class="fas fa-copy"></i> Duplicate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="result-section" class="hidden">
+                    <div class="holographic-card result-card">
+                        <div class="card-content">
+                            <h2><i class="fas fa-file-archive"></i> Archivos Generados</h2>
+                            <div id="file-list" class="file-list"></div>
+                            <button id="download-btn" class="neon-button download-btn">
+                                <i class="fas fa-download"></i> Descargar ZIP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="how-to" class="hidden">
+                <div class="holographic-card">
+                    <div class="card-content">
+                        <h2><i class="fas fa-info-circle"></i> ¿Qué es NovaBlaze Web Duplicator?</h2>
+                        <p>Una herramienta avanzada que permite duplicar sitios web para fines de análisis, aprendizaje o backup.</p>
+                        
+                        <h3><i class="fas fa-list-ol"></i> Pasos para usar:</h3>
+                        <ol class="steps-list">
+                            <li><i class="fas fa-mouse-pointer"></i> Ingresa la URL del sitio web a duplicar</li>
+                            <li><i class="fas fa-copy"></i> Haz clic en el botón "Duplicate"</li>
+                            <li><i class="fas fa-spinner"></i> Espera a que se procese la solicitud</li>
+                            <li><i class="fas fa-file-archive"></i> Revisa los archivos generados</li>
+                            <li><i class="fas fa-download"></i> Descarga el ZIP con el sitio duplicado</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <section id="restrictions" class="hidden">
+                <div class="holographic-card">
+                    <div class="card-content">
+                        <h2><i class="fas fa-exclamation-triangle"></i> Sitios con restricciones</h2>
+                        <p>Los siguientes sitios no pueden ser duplicados por razones de seguridad o políticas:</p>
+                        <ul class="restricted-list">
+                            <li><i class="fas fa-lock"></i> google.com</li>
+                            <li><i class="fas fa-lock"></i> facebook.com</li>
+                            <li><i class="fas fa-lock"></i> twitter.com</li>
+                            <li><i class="fas fa-lock"></i> instagram.com</li>
+                            <li><i class="fas fa-lock"></i> linkedin.com</li>
+                            <li><i class="fas fa-lock"></i> github.com</li>
+                            <li><i class="fas fa-lock"></i> sitios con autenticación</li>
+                            <li><i class="fas fa-lock"></i> sitios con protección anti-scraping</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="neon-footer">
+            <p>© 2025 <a href="index.html" class="neon-link">NovaBlaze</a> | Page developer: <a href="https://twentyfox.lat/ale.html" class="neon-link">RataLife</a></p>
+        </footer>
+    </div>
+
+    <div class="particles"></div>
+    <div class="neon-circle-1"></div>
+    <div class="neon-circle-2"></div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

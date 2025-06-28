@@ -676,7 +676,7 @@
     
     <!-- Right panel - Preview -->
     <div class="preview-panel">
-        <a href="#" class="donate-btn">Donate</a>
+        <a href="https://www.paypal.com/paypalme/ratalittle" class="donate-btn">Donate</a>
         
         <div class="header">
             <h1>Live Preview</h1>
@@ -957,7 +957,7 @@
             });
         }
         
-        // Send webhook function
+        // Send webhook function - VERSIÓN CORREGIDA
         document.getElementById('send-webhook').addEventListener('click', async () => {
             const webhookUrl = document.getElementById('webhook-url').value;
             
@@ -966,13 +966,12 @@
                 return;
             }
             
-            // Basic validation for Discord webhook URL
             if (!webhookUrl.includes('discord.com/api/webhooks/')) {
                 alert('Please enter a valid Discord webhook URL');
                 return;
             }
             
-            // Prepare payload
+            // Prepare payload - AHORA CON TODAS LAS IMÁGENES
             const payload = {
                 content: document.getElementById('message-content').value || null,
                 username: document.getElementById('username').value || null,
@@ -980,7 +979,7 @@
                 thread_name: document.getElementById('thread-name').value || null
             };
             
-            // Add embeds if any
+            // Add embeds if any - VERSIÓN QUE MANDA TODOS LOS ICONOS
             const embedItems = document.querySelectorAll('.embed-item');
             if (embedItems.length > 0) {
                 payload.embeds = [];
@@ -989,62 +988,47 @@
                     const embedId = embedItem.id;
                     
                     const embed = {
-                        author: {},
-                        title: document.getElementById(`${embedId}-title`).value || null,
-                        description: document.getElementById(`${embedId}-description`).value || null,
+                        author: {
+                            name: document.getElementById(`${embedId}-author-name`).value || undefined,
+                            icon_url: document.getElementById(`${embedId}-author-icon`).value || undefined
+                        },
+                        title: document.getElementById(`${embedId}-title`).value || undefined,
+                        description: document.getElementById(`${embedId}-description`).value || undefined,
                         color: parseInt(document.getElementById(`${embedId}-color`).value.replace('#', ''), 16) || 0x5865F2,
-                        image: {},
-                        thumbnail: {},
-                        footer: {},
+                        image: {
+                            url: document.getElementById(`${embedId}-image-url`).value || undefined
+                        },
+                        thumbnail: {
+                            url: document.getElementById(`${embedId}-thumbnail-url`).value || undefined
+                        },
+                        footer: {
+                            text: document.getElementById(`${embedId}-footer-text`).value || undefined,
+                            icon_url: document.getElementById(`${embedId}-footer-icon`).value || undefined
+                        },
                         timestamp: null
                     };
                     
-                    // Author
-                    const authorName = document.getElementById(`${embedId}-author-name`).value;
-                    const authorIcon = document.getElementById(`${embedId}-author-icon`).value;
-                    
-                    if (authorName) {
-                        embed.author.name = authorName;
-                        if (authorIcon) embed.author.icon_url = authorIcon;
-                    } else {
-                        embed.author = null;
-                    }
-                    
-                    // Images
-                    const imageUrl = document.getElementById(`${embedId}-image-url`).value;
-                    const thumbnailUrl = document.getElementById(`${embedId}-thumbnail-url`).value;
-                    
-                    if (imageUrl) embed.image.url = imageUrl;
-                    else embed.image = null;
-                    
-                    if (thumbnailUrl) embed.thumbnail.url = thumbnailUrl;
-                    else embed.thumbnail = null;
-                    
-                    // Footer
-                    const footerText = document.getElementById(`${embedId}-footer-text`).value;
-                    const footerIcon = document.getElementById(`${embedId}-footer-icon`).value;
+                    // Timestamp handling
                     const includeTimestamp = document.getElementById(`${embedId}-footer-timestamp`).checked;
                     const customTimestamp = document.getElementById(`${embedId}-custom-timestamp`).value;
                     
-                    if (footerText || footerIcon) {
-                        if (footerText) embed.footer.text = footerText;
-                        if (footerIcon) embed.footer.icon_url = footerIcon;
-                    } else {
-                        embed.footer = null;
-                    }
-                    
-                    // Timestamp
                     if (includeTimestamp) {
-                        if (customTimestamp) {
-                            embed.timestamp = new Date(customTimestamp).toISOString();
-                        } else {
-                            embed.timestamp = new Date().toISOString();
-                        }
+                        embed.timestamp = customTimestamp 
+                            ? new Date(customTimestamp).toISOString()
+                            : new Date().toISOString();
+                    } else {
+                        delete embed.timestamp;
                     }
                     
-                    // Remove null values
+                    // Clean up empty objects
+                    if (!embed.author.name && !embed.author.icon_url) delete embed.author;
+                    if (!embed.image.url) delete embed.image;
+                    if (!embed.thumbnail.url) delete embed.thumbnail;
+                    if (!embed.footer.text && !embed.footer.icon_url) delete embed.footer;
+                    
+                    // Remove undefined values
                     Object.keys(embed).forEach(key => {
-                        if (embed[key] === null || (typeof embed[key] === 'object' && Object.keys(embed[key]).length === 0)) {
+                        if (embed[key] === undefined) {
                             delete embed[key];
                         }
                     });
@@ -1055,15 +1039,15 @@
                 });
             }
             
-            // Remove null values from payload
+            // Clean payload
             Object.keys(payload).forEach(key => {
-                if (payload[key] === null) {
+                if (payload[key] === null || payload[key] === undefined) {
                     delete payload[key];
                 }
             });
             
             try {
-                const response = await fetch(webhookUrl, {
+                const response = await fetch(webhookUrl + '?wait=true', { // Added wait=true to get response
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1072,13 +1056,17 @@
                 });
                 
                 if (response.ok) {
-                    alert('Message sent successfully!');
+                    const data = await response.json();
+                    console.log('Discord response:', data);
+                    alert('¡Mensaje enviado con éxito!\nSe cargaron todas las imágenes correctamente.');
                 } else {
                     const error = await response.text();
-                    alert(`Error sending message: ${error}`);
+                    console.error('Discord error:', error);
+                    alert(`Error al enviar: ${error}`);
                 }
             } catch (error) {
-                alert(`Error: ${error.message}`);
+                console.error('Fetch error:', error);
+                alert(`Error de conexión: ${error.message}`);
             }
         });
         

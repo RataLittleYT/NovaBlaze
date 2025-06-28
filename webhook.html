@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webhook Discord by NovaBlaze x RataLife</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --neon-pink: #ff2a6d;
+            --neon-purple: #d300c5;
+            --neon-blue: #05d9e8;
+            --dark-bg: #0d0d0d;
+            --darker-bg: #080808;
+            --text-color: #f0f0f0;
+            --glow-intensity: 0.8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            position: relative;
+        }
+        
+        /* Particle background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        
+        /* Left panel - Controls */
+        .control-panel {
+            width: 45%;
+            padding: 2rem;
+            background-color: rgba(13, 13, 13, 0.85);
+            border-right: 1px solid rgba(255, 42, 109, 0.2);
+            box-shadow: 0 0 30px rgba(255, 42, 109, 0.1);
+            backdrop-filter: blur(5px);
+            overflow-y: auto;
+            height: 100vh;
+            animation: fadeInLeft 0.8s ease-out;
+        }
+        
+        /* Right panel - Preview */
+        .preview-panel {
+            width: 55%;
+            padding: 2rem;
+            background-color: rgba(8, 8, 8, 0.85);
+            overflow-y: auto;
+            height: 100vh;
+            animation: fadeInRight 0.8s ease-out;
+            position: relative;
+        }
+        
+        /* Header styles */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 42, 109, 0.3);
+            margin-bottom: 0.5rem;
+            animation: glow 2s infinite alternate;
+        }
+        
+        .header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        /* Webhook URL input */
+        .webhook-input {
+            margin-bottom: 2rem;
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        .webhook-input label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--neon-pink);
+            font-weight: 600;
+            text-shadow: 0 0 5px rgba(255, 42, 109, 0.5);
+        }
+        
+        .webhook-input input {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(255, 42, 109, 0.3);
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .webhook-input input:focus {
+            outline: none;
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 15px rgba(255, 42, 109, 0.4);
+        }
+        
+        /* Button styles */
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(255, 42, 109, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255, 42, 109, 0.5);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Accordion styles */
+        .accordion {
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            background-color: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(255, 42, 109, 0.2);
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        .accordion-header {
+            padding: 15px 20px;
+            background: linear-gradient(90deg, rgba(255, 42, 109, 0.2), transparent);
+            color: var(--neon-pink);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-header:hover {
+            background: linear-gradient(90deg, rgba(255, 42, 109, 0.3), transparent);
+        }
+        
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-header.active::after {
+            content: '-';
+        }
+        
+        .accordion-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .accordion-content.show {
+            padding: 20px;
+            max-height: 2000px;
+        }
+        
+        /* Form group styles */
+        .form-group {
+            margin-bottom: 1rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+        
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .form-group input:focus, 
+        .form-group textarea:focus, 
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 10px rgba(255, 42, 109, 0.3);
+        }
+        
+        /* Color picker styles */
+        .color-picker-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .color-picker {
+            width: 50px;
+            height: 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: transparent;
+        }
+        
+        .color-picker::-webkit-color-swatch {
+            border-radius: 5px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .color-picker::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        
+        .color-preview {
+            padding: 5px 10px;
+            background-color: rgba(30, 30, 30, 0.8);
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        /* Embed controls */
+        .embed-controls {
+            margin-top: 2rem;
+        }
+        
+        .embed-item {
+            background-color: rgba(25, 25, 25, 0.8);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--neon-pink);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .embed-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 42, 109, 0.3);
+        }
+        
+        .embed-item-title {
+            color: var(--neon-pink);
+            font-weight: 600;
+        }
+        
+        .remove-embed {
+            background-color: rgba(255, 42, 109, 0.2);
+            color: var(--neon-pink);
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-embed:hover {
+            background-color: rgba(255, 42, 109, 0.4);
+        }
+        
+        /* Preview styles */
+        .preview-container {
+            background-color: #36393f;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 200px;
+            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .discord-message {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        
+        .discord-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+        
+        .discord-message-content {
+            flex: 1;
+        }
+        
+        .discord-username {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.2rem;
+        }
+        
+        .discord-text {
+            color: #dcddde;
+            line-height: 1.4;
+        }
+        
+        .discord-embed {
+            background-color: #2f3136;
+            border-left: 4px solid #5865f2;
+            border-radius: 4px;
+            padding: 10px 15px;
+            margin-top: 10px;
+            max-width: 520px;
+        }
+        
+        .discord-embed-title {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        
+        .discord-embed-description {
+            color: #dcddde;
+            margin-bottom: 8px;
+        }
+        
+        .discord-embed-author {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .discord-embed-author-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .discord-embed-author-name {
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .discord-embed-image {
+            max-width: 100%;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+        
+        .discord-embed-thumbnail {
+            float: right;
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 4px;
+            margin-left: 15px;
+        }
+        
+        .discord-embed-footer {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+            color: #a3a6aa;
+            font-size: 0.8rem;
+        }
+        
+        .discord-embed-footer-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        /* Donate button */
+        .donate-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(255, 42, 109, 0.3);
+            text-decoration: none;
+            animation: pulse 2s infinite;
+        }
+        
+        .donate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(255, 42, 109, 0.5);
+        }
+        
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+            background-color: rgba(13, 13, 13, 0.8);
+            border-top: 1px solid rgba(255, 42, 109, 0.2);
+            backdrop-filter: blur(5px);
+            z-index: 10;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .footer-content p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+        }
+        
+        .footer-content a {
+            color: var(--neon-pink);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-content a:hover {
+            text-shadow: 0 0 10px rgba(255, 42, 109, 0.7);
+        }
+        
+        /* Mobile restriction */
+        .mobile-restriction {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark-bg);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .mobile-restriction h2 {
+            color: var(--neon-pink);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .mobile-restriction p {
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInLeft {
+            from { 
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from { 
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 5px rgba(255, 42, 109, 0.5);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(255, 42, 109, 0.9);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 42, 109, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 42, 109, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 42, 109, 0);
+            }
+        }
+        
+        /* Floating elements */
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Responsive - Hide on mobile */
+        @media (max-width: 1024px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .control-panel, .preview-panel {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 42, 109, 0.2);
+            }
+            
+            .mobile-restriction {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .control-panel, .preview-panel, .footer {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile restriction -->
+    <div class="mobile-restriction floating">
+        <h2>Desktop Experience Required</h2>
+        <p>This tool is designed for desktop use only. Please access it from a computer for the full experience.</p>
+        <div class="footer-content">
+            <p>&copy; 2025 NovaBlaze ® | By Jassmin | Page Developer <a href="https://twentyfox.lat/ale.html" style="color: var(--neon-pink);">RataLife</a></p>
+        </div>
+    </div>
+
+    <!-- Particle background -->
+    <div id="particles-js"></div>
+    
+    <!-- Left panel - Controls -->
+    <div class="control-panel">
+        <div class="header">
+            <h1>Webhook Discord</h1>
+            <p>by NovaBlaze x RataLife</p>
+        </div>
+        
+        <!-- Webhook URL input -->
+        <div class="webhook-input">
+            <label for="webhook-url">Webhook URL</label>
+            <input type="text" id="webhook-url" placeholder="https://discord.com/api/webhooks/...">
+        </div>
+        
+        <!-- Message Options -->
+        <div class="accordion">
+            <div class="accordion-header active">Message Options</div>
+            <div class="accordion-content show">
+                <div class="form-group">
+                    <label for="message-content">Content</label>
+                    <textarea id="message-content" placeholder="Enter your message content here..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="thread-name">Thread Name (optional)</label>
+                    <input type="text" id="thread-name" placeholder="Enter thread name...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="username">Username (optional)</label>
+                    <input type="text" id="username" placeholder="Custom username...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="avatar-url">Avatar URL (optional)</label>
+                    <input type="text" id="avatar-url" placeholder="https://example.com/avatar.png">
+                </div>
+                
+                <div class="form-group">
+                    <label for="file-count">Files (0/10 max)</label>
+                    <input type="number" id="file-count" min="0" max="10" value="0">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Embeds -->
+        <div class="embed-controls">
+            <button id="add-embed" class="btn">Add Embed</button>
+            <div id="embeds-container">
+                <!-- Embeds will be added here -->
+            </div>
+        </div>
+        
+        <!-- Send button -->
+        <button id="send-webhook" class="btn">Send Webhook</button>
+    </div>
+    
+    <!-- Right panel - Preview -->
+    <div class="preview-panel">
+        <a href="#" class="donate-btn">Donate</a>
+        
+        <div class="header">
+            <h1>Live Preview</h1>
+            <p>See how your message will look in Discord</p>
+        </div>
+        
+        <div class="preview-container" id="discord-preview">
+            <!-- Preview will be rendered here -->
+            <div class="discord-message">
+                <img src="https://cdn.discordapp.com/embed/avatars/0.png" class="discord-avatar" id="preview-avatar">
+                <div class="discord-message-content">
+                    <div class="discord-username" id="preview-username">Webhook User</div>
+                    <div class="discord-text" id="preview-content">Your message will appear here...</div>
+                    <!-- Embeds will be added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 NovaBlaze ® | By Jassmin | Page Developer <a href="https://twentyfox.lat/ale.html" style="color: var(--neon-pink);">RataLife</a></p>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Mobile detection
+        function isMobile() {
+            return (window.innerWidth <= 1024);
+        }
+        
+        if (isMobile()) {
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.classList.toggle('active');
+                const content = header.nextElementSibling;
+                content.classList.toggle('show');
+            });
+        });
+        
+        // Embed counter
+        let embedCount = 0;
+        const maxEmbeds = 5;
+        
+        // Add embed button
+        document.getElementById('add-embed').addEventListener('click', () => {
+            if (embedCount >= maxEmbeds) {
+                alert(`Maximum of ${maxEmbeds} embeds reached!`);
+                return;
+            }
+            
+            embedCount++;
+            const embedId = `embed-${embedCount}`;
+            
+            const embedHTML = `
+                <div class="embed-item" id="${embedId}">
+                    <div class="embed-item-header">
+                        <span class="embed-item-title">Embed #${embedCount}</span>
+                        <button class="remove-embed" data-embed="${embedId}">Remove</button>
+                    </div>
+                    
+                    <!-- Author -->
+                    <div class="form-group">
+                        <label>Author</label>
+                        <div class="form-group">
+                            <label for="${embedId}-author-name">Name</label>
+                            <input type="text" id="${embedId}-author-name" placeholder="Author name...">
+                        </div>
+                        <div class="form-group">
+                            <label for="${embedId}-author-icon">Icon URL</label>
+                            <input type="text" id="${embedId}-author-icon" placeholder="https://example.com/icon.png">
+                        </div>
+                    </div>
+                    
+                    <!-- Body -->
+                    <div class="form-group">
+                        <label>Body</label>
+                        <div class="form-group">
+                            <label for="${embedId}-title">Title</label>
+                            <input type="text" id="${embedId}-title" placeholder="Embed title...">
+                        </div>
+                        <div class="form-group">
+                            <label for="${embedId}-color">Color</label>
+                            <div class="color-picker-group">
+                                <input type="color" id="${embedId}-color" class="color-picker" value="#5865F2">
+                                <input type="text" id="${embedId}-color-hex" class="color-preview" value="#5865F2" maxlength="7">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="${embedId}-description">Description</label>
+                            <textarea id="${embedId}-description" placeholder="Embed description..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Images -->
+                    <div class="form-group">
+                        <label>Images</label>
+                        <div class="form-group">
+                            <label for="${embedId}-image-url">Large Image URL</label>
+                            <input type="text" id="${embedId}-image-url" placeholder="https://example.com/image.png">
+                        </div>
+                        <div class="form-group">
+                            <label for="${embedId}-thumbnail-url">Thumbnail URL</label>
+                            <input type="text" id="${embedId}-thumbnail-url" placeholder="https://example.com/thumbnail.png">
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="form-group">
+                        <label>Footer</label>
+                        <div class="form-group">
+                            <label for="${embedId}-footer-text">Text</label>
+                            <input type="text" id="${embedId}-footer-text" placeholder="Footer text...">
+                        </div>
+                        <div class="form-group">
+                            <label for="${embedId}-footer-icon">Icon URL</label>
+                            <input type="text" id="${embedId}-footer-icon" placeholder="https://example.com/footer-icon.png">
+                        </div>
+                        <div class="form-group">
+                            <label for="${embedId}-footer-timestamp">
+                                <input type="checkbox" id="${embedId}-footer-timestamp">
+                                Include Timestamp
+                            </label>
+                        </div>
+                        <div class="form-group" id="${embedId}-timestamp-container" style="display: none;">
+                            <label for="${embedId}-custom-timestamp">Custom Timestamp</label>
+                            <input type="datetime-local" id="${embedId}-custom-timestamp">
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('embeds-container').insertAdjacentHTML('beforeend', embedHTML);
+            
+            // Color picker interaction
+            const colorPicker = document.getElementById(`${embedId}-color`);
+            const colorHex = document.getElementById(`${embedId}-color-hex`);
+            
+            colorPicker.addEventListener('input', () => {
+                colorHex.value = colorPicker.value;
+                updatePreview();
+            });
+            
+            colorHex.addEventListener('input', () => {
+                if (/^#[0-9A-F]{6}$/i.test(colorHex.value)) {
+                    colorPicker.value = colorHex.value;
+                    updatePreview();
+                }
+            });
+            
+            // Timestamp toggle
+            const timestampCheckbox = document.getElementById(`${embedId}-footer-timestamp`);
+            const timestampContainer = document.getElementById(`${embedId}-timestamp-container`);
+            
+            timestampCheckbox.addEventListener('change', () => {
+                timestampContainer.style.display = timestampCheckbox.checked ? 'block' : 'none';
+                updatePreview();
+            });
+            
+            // Remove embed button
+            document.querySelector(`button[data-embed="${embedId}"]`).addEventListener('click', () => {
+                document.getElementById(embedId).remove();
+                embedCount--;
+                updatePreview();
+            });
+            
+            // Add event listeners for all inputs to update preview
+            document.querySelectorAll(`#${embedId} input, #${embedId} textarea`).forEach(input => {
+                input.addEventListener('input', updatePreview);
+            });
+            
+            updatePreview();
+        });
+        
+        // Update preview function
+        function updatePreview() {
+            // Update basic message info
+            const username = document.getElementById('username').value || 'Webhook User';
+            const avatarUrl = document.getElementById('avatar-url').value || 'https://cdn.discordapp.com/embed/avatars/0.png';
+            const content = document.getElementById('message-content').value || 'Your message will appear here...';
+            
+            document.getElementById('preview-username').textContent = username;
+            document.getElementById('preview-content').textContent = content;
+            document.getElementById('preview-avatar').src = avatarUrl;
+            
+            // Clear existing embeds in preview
+            const previewContainer = document.getElementById('discord-preview');
+            const existingEmbeds = previewContainer.querySelectorAll('.discord-embed');
+            existingEmbeds.forEach(embed => embed.remove());
+            
+            // Add new embeds to preview
+            const embedItems = document.querySelectorAll('.embed-item');
+            embedItems.forEach((embedItem, index) => {
+                const embedId = embedItem.id;
+                
+                // Get embed data
+                const authorName = document.getElementById(`${embedId}-author-name`).value;
+                const authorIcon = document.getElementById(`${embedId}-author-icon`).value;
+                const title = document.getElementById(`${embedId}-title`).value;
+                const description = document.getElementById(`${embedId}-description`).value;
+                const color = document.getElementById(`${embedId}-color`).value;
+                const imageUrl = document.getElementById(`${embedId}-image-url`).value;
+                const thumbnailUrl = document.getElementById(`${embedId}-thumbnail-url`).value;
+                const footerText = document.getElementById(`${embedId}-footer-text`).value;
+                const footerIcon = document.getElementById(`${embedId}-footer-icon`).value;
+                const includeTimestamp = document.getElementById(`${embedId}-footer-timestamp`).checked;
+                const customTimestamp = document.getElementById(`${embedId}-custom-timestamp`).value;
+                
+                // Create embed element
+                const embedElement = document.createElement('div');
+                embedElement.className = 'discord-embed';
+                embedElement.style.borderLeftColor = color;
+                
+                let embedHTML = '';
+                
+                // Add author if exists
+                if (authorName) {
+                    embedHTML += `
+                        <div class="discord-embed-author">
+                            ${authorIcon ? `<img src="${authorIcon}" class="discord-embed-author-icon">` : ''}
+                            <span class="discord-embed-author-name">${authorName}</span>
+                        </div>
+                    `;
+                }
+                
+                // Add title if exists
+                if (title) {
+                    embedHTML += `<div class="discord-embed-title">${title}</div>`;
+                }
+                
+                // Add description if exists
+                if (description) {
+                    embedHTML += `<div class="discord-embed-description">${description}</div>`;
+                }
+                
+                // Add thumbnail if exists (floated right)
+                if (thumbnailUrl) {
+                    embedHTML += `<img src="${thumbnailUrl}" class="discord-embed-thumbnail">`;
+                }
+                
+                // Add image if exists
+                if (imageUrl) {
+                    embedHTML += `<img src="${imageUrl}" class="discord-embed-image">`;
+                }
+                
+                // Add footer if exists
+                if (footerText || footerIcon || includeTimestamp) {
+                    let timestamp = '';
+                    
+                    if (includeTimestamp) {
+                        if (customTimestamp) {
+                            timestamp = new Date(customTimestamp).toISOString();
+                        } else {
+                            timestamp = new Date().toISOString();
+                        }
+                    }
+                    
+                    embedHTML += `
+                        <div class="discord-embed-footer">
+                            ${footerIcon ? `<img src="${footerIcon}" class="discord-embed-footer-icon">` : ''}
+                            ${footerText ? `<span>${footerText}</span>` : ''}
+                            ${includeTimestamp ? `<span>• ${new Date(timestamp).toLocaleString()}</span>` : ''}
+                        </div>
+                    `;
+                }
+                
+                embedElement.innerHTML = embedHTML;
+                
+                // Find the message content div and append the embed
+                const messageContent = previewContainer.querySelector('.discord-message-content');
+                messageContent.appendChild(embedElement);
+            });
+        }
+        
+        // Send webhook function
+        document.getElementById('send-webhook').addEventListener('click', async () => {
+            const webhookUrl = document.getElementById('webhook-url').value;
+            
+            if (!webhookUrl) {
+                alert('Please enter a webhook URL');
+                return;
+            }
+            
+            // Basic validation for Discord webhook URL
+            if (!webhookUrl.includes('discord.com/api/webhooks/')) {
+                alert('Please enter a valid Discord webhook URL');
+                return;
+            }
+            
+            // Prepare payload
+            const payload = {
+                content: document.getElementById('message-content').value || null,
+                username: document.getElementById('username').value || null,
+                avatar_url: document.getElementById('avatar-url').value || null,
+                thread_name: document.getElementById('thread-name').value || null
+            };
+            
+            // Add embeds if any
+            const embedItems = document.querySelectorAll('.embed-item');
+            if (embedItems.length > 0) {
+                payload.embeds = [];
+                
+                embedItems.forEach(embedItem => {
+                    const embedId = embedItem.id;
+                    
+                    const embed = {
+                        author: {},
+                        title: document.getElementById(`${embedId}-title`).value || null,
+                        description: document.getElementById(`${embedId}-description`).value || null,
+                        color: parseInt(document.getElementById(`${embedId}-color`).value.replace('#', ''), 16) || 0x5865F2,
+                        image: {},
+                        thumbnail: {},
+                        footer: {},
+                        timestamp: null
+                    };
+                    
+                    // Author
+                    const authorName = document.getElementById(`${embedId}-author-name`).value;
+                    const authorIcon = document.getElementById(`${embedId}-author-icon`).value;
+                    
+                    if (authorName) {
+                        embed.author.name = authorName;
+                        if (authorIcon) embed.author.icon_url = authorIcon;
+                    } else {
+                        embed.author = null;
+                    }
+                    
+                    // Images
+                    const imageUrl = document.getElementById(`${embedId}-image-url`).value;
+                    const thumbnailUrl = document.getElementById(`${embedId}-thumbnail-url`).value;
+                    
+                    if (imageUrl) embed.image.url = imageUrl;
+                    else embed.image = null;
+                    
+                    if (thumbnailUrl) embed.thumbnail.url = thumbnailUrl;
+                    else embed.thumbnail = null;
+                    
+                    // Footer
+                    const footerText = document.getElementById(`${embedId}-footer-text`).value;
+                    const footerIcon = document.getElementById(`${embedId}-footer-icon`).value;
+                    const includeTimestamp = document.getElementById(`${embedId}-footer-timestamp`).checked;
+                    const customTimestamp = document.getElementById(`${embedId}-custom-timestamp`).value;
+                    
+                    if (footerText || footerIcon) {
+                        if (footerText) embed.footer.text = footerText;
+                        if (footerIcon) embed.footer.icon_url = footerIcon;
+                    } else {
+                        embed.footer = null;
+                    }
+                    
+                    // Timestamp
+                    if (includeTimestamp) {
+                        if (customTimestamp) {
+                            embed.timestamp = new Date(customTimestamp).toISOString();
+                        } else {
+                            embed.timestamp = new Date().toISOString();
+                        }
+                    }
+                    
+                    // Remove null values
+                    Object.keys(embed).forEach(key => {
+                        if (embed[key] === null || (typeof embed[key] === 'object' && Object.keys(embed[key]).length === 0)) {
+                            delete embed[key];
+                        }
+                    });
+                    
+                    if (Object.keys(embed).length > 0) {
+                        payload.embeds.push(embed);
+                    }
+                });
+            }
+            
+            // Remove null values from payload
+            Object.keys(payload).forEach(key => {
+                if (payload[key] === null) {
+                    delete payload[key];
+                }
+            });
+            
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (response.ok) {
+                    alert('Message sent successfully!');
+                } else {
+                    const error = await response.text();
+                    alert(`Error sending message: ${error}`);
+                }
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        });
+        
+        // Initialize particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": ["#ff2a6d", "#d300c5", "#05d9e8"]
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 2,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ff2a6d",
+                        "opacity": 0.2,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 1,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": true,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 0.5
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+            
+            // Add event listeners for inputs to update preview
+            document.getElementById('username').addEventListener('input', updatePreview);
+            document.getElementById('avatar-url').addEventListener('input', updatePreview);
+            document.getElementById('message-content').addEventListener('input', updatePreview);
+        });
+    </script>
+</body>
+</html>

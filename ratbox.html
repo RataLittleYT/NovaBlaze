@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaBlaze Ratbox - File Hosting</title>
+    <link rel="stylesheet" href="stylesss.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐀</text></svg>">
+</head>
+<body>
+    <div class="particles" id="particles-js"></div>
+    
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🐀</span>
+                <h1>NovaBlaze <span class="neon-text">Ratbox</span></h1>
+            </div>
+            <p class="tagline">Secure file hosting with style</p>
+        </header>
+
+        <main class="main-content">
+            <div class="upload-container">
+                <div class="upload-area" id="dropZone">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <h2>Drag & Drop Files Here</h2>
+                    <p>or</p>
+                    <button class="btn-select" id="selectFiles">Select Files</button>
+                    <input type="file" id="fileInput" multiple style="display: none;">
+                    <div class="file-info" id="fileInfo"></div>
+                </div>
+
+                <div class="settings-panel">
+                    <div class="setting-item">
+                        <label for="expirySelect">Expiration:</label>
+                        <select id="expirySelect" class="neon-select">
+                            <option value="forever">Forever</option>
+                            <option value="1h">1 Hour</option>
+                            <option value="1d">1 Day</option>
+                            <option value="1w">1 Week</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="privateCheck">Private:</label>
+                        <input type="checkbox" id="privateCheck" class="neon-checkbox">
+                    </div>
+                </div>
+
+                <button class="btn-upload" id="uploadBtn" disabled>
+                    <span class="btn-text">Upload</span>
+                    <span class="btn-loader" id="uploadLoader"></span>
+                </button>
+            </div>
+
+            <div class="result-container" id="resultContainer" style="display: none;">
+                <div class="success-animation">
+                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                </div>
+                <h2 class="success-title">Upload Complete!</h2>
+                <div class="result-box">
+                    <div class="result-item">
+                        <span class="result-label">File Name:</span>
+                        <span class="result-value" id="resultFileName"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">File Size:</span>
+                        <span class="result-value" id="resultFileSize"></span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Your Link:</span>
+                        <div class="link-container">
+                            <input type="text" id="fileLink" class="link-input" readonly>
+                            <button class="btn-copy" id="copyBtn">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-new" id="newUploadBtn">
+                    <i class="fas fa-plus"></i> Upload Another File
+                </button>
+            </div>
+        </main>
+
+        <div class="info-section">
+            <div class="info-card">
+                <i class="fas fa-shield-alt info-icon"></i>
+                <h3>Secure</h3>
+                <p>All files are encrypted during transfer</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-bolt info-icon"></i>
+                <h3>Fast</h3>
+                <p>High-speed servers worldwide</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-infinity info-icon"></i>
+                <h3>Permanent</h3>
+                <p>Files stay until you delete them</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 NovaBlaze ® | By Jassmin | Page Developer <a href="https://twentyfox.lat/ale.html" style="color: var(--neon-pink);">RataLife</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="scriptify.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const GITHUB_CONFIG = {
         USERNAME: 'RataLittleYT',
         REPO: 'NovaBlaze',
-        TOKEN: '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',
+        TOKEN: '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',
         BRANCH: 'main'
     };
 
@@ -266,8 +266,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function uploadToGitHub(file) {
-        const uniqueFilename = generateFileId(file.name);
-        
+    const uniqueFilename = generateFileId(file.name);
+    
+    try {
         const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.USERNAME}/${GITHUB_CONFIG.REPO}/contents/${uniqueFilename}`, {
             method: 'PUT',
             headers: {
@@ -276,19 +277,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Accept': 'application/vnd.github.v3+json'
             },
             body: JSON.stringify({
-                message: `Upload ${uniqueFilename}`,
+                message: `Upload ${uniqueFilename} via NovaBlaze`,
                 content: await fileToBase64(file),
                 branch: GITHUB_CONFIG.BRANCH
             })
         });
+
+        const data = await response.json();
         
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Error en la subida');
+            // Mensajes de error específicos
+            if (response.status === 401) {
+                throw new Error('Token inválido o expirado');
+            } else if (response.status === 403) {
+                throw new Error('Límite de la API alcanzado');
+            } else {
+                throw new Error(data.message || 'Error al subir archivo');
+            }
         }
-        
-        return await response.json();
+
+        return data;
+    } catch (error) {
+        console.error('Error detallado:', error);
+        throw new Error(`Falló la subida: ${error.message}`);
     }
+}
 
     async function fileToBase64(file) {
         return new Promise((resolve, reject) => {

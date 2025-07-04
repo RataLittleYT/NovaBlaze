@@ -11,7 +11,7 @@
         :root {
             --neon-pink: #ff2a6d;
             --pink: #ff7eb9;
-            --black: #000000;
+            --black: #0d0221;
             --dark-blue: #0f084b;
             --light-blue: #d1f7ff;
         }
@@ -459,8 +459,8 @@
     <script>
         // Discord OAuth Configuration
         const DISCORD_CLIENT_ID = '1390529803752308776';
-        const DISCORD_OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=1390529803752308776&response_type=code&redirect_uri=https%3A%2F%2Fwww.novablaze.shop%2Fspammer.html&integration_type=1&scope=identify+applications.commands.permissions.update+sdk.social_layer+dm_channels.messages.read+presences.read+voice+activities.invites.write+applications.entitlements+applications.builds.read+webhook.incoming+rpc.screenshare.read+rpc.voice.write+rpc+guilds.channels.read+guilds+email+guilds.join+gdm.join+rpc.notifications.read+rpc.video.read+rpc.screenshare.write+messages.read+applications.commands+activities.read+relationships.read+dm_channels.read+dm_channels.messages.write+presences.write+payment_sources.country_code+lobbies.write+sdk.social_layer_presence+gateway.connect+openid+role_connections.write+relationships.write+activities.write+applications.store.update+applications.builds.upload+rpc.activities.write+rpc.video.write+rpc.voice.read+guilds.members.read+connections`;
-
+        const DISCORD_REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname);
+        const DISCORD_OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=1390529803752308776&response_type=code&redirect_uri=https%3A%2F%2Fwww.novablaze.shop%2Fspammer.html&scope=identify`;
         // DOM Elements
         const loginContainer = document.getElementById('login-container');
         const dashboard = document.getElementById('dashboard');

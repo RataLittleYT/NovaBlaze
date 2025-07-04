@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
         :root {
             --neon-pink: #ff2a6d;
             --pink: #ff7eb9;
-            --black: #0d0221;
+            --black: #000000;
             --dark-blue: #0f084b;
             --light-blue: #d1f7ff;
         }
@@ -33,7 +33,6 @@
             -moz-user-select: none;   
             -ms-user-select: none;    
             user-select: none;  
-            scroll-behavior: smooth;
         }
 
         #particles-js {
@@ -82,7 +81,7 @@
             animation: pulse 1.5s infinite;
         }
 
-        .login-container, .dashboard {
+        .welcome-screen, .dashboard {
             background: rgba(15, 8, 75, 0.3);
             backdrop-filter: blur(10px);
             border-radius: 15px;
@@ -94,9 +93,10 @@
             position: relative;
             overflow: hidden;
             transition: all 0.5s ease;
+            text-align: center;
         }
 
-        .login-container::before, .dashboard::before {
+        .welcome-screen::before, .dashboard::before {
             content: '';
             position: absolute;
             top: -50%;
@@ -108,21 +108,15 @@
             z-index: -1;
         }
 
-        .login-container:hover, .dashboard:hover {
-            box-shadow: 0 0 40px rgba(255, 42, 109, 0.4);
-            transform: translateY(-5px);
-        }
-
         h2 {
             color: var(--pink);
             margin-bottom: 20px;
-            text-align: center;
             font-size: 24px;
             text-shadow: 0 0 10px rgba(255, 42, 109, 0.5);
         }
 
-        .discord-btn {
-            background: #5865F2;
+        .btn {
+            background: linear-gradient(45deg, var(--neon-pink), var(--pink));
             color: white;
             border: none;
             padding: 15px 30px;
@@ -130,54 +124,32 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px auto;
-            width: 100%;
+            display: inline-block;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4);
+            box-shadow: 0 5px 15px rgba(255, 42, 109, 0.4);
+            text-align: center;
+            margin-top: 20px;
+            animation: pulse 2s infinite;
         }
 
-        .discord-btn:hover {
+        .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(88, 101, 242, 0.6);
+            box-shadow: 0 8px 20px rgba(255, 42, 109, 0.6);
+            animation: none;
         }
 
-        .discord-btn i {
-            margin-right: 10px;
-            font-size: 20px;
+        .btn-stop {
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 126, 185, 0.2);
-        }
-
-        .user-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin-right: 15px;
-            border: 2px solid var(--neon-pink);
-            box-shadow: 0 0 15px var(--neon-pink);
-        }
-
-        .user-details h3 {
-            color: var(--pink);
-            margin-bottom: 5px;
-        }
-
-        .user-details p {
-            color: var(--light-blue);
-            font-size: 14px;
+        .btn-stop:hover {
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.6);
         }
 
         .form-group {
             margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-out;
         }
 
         label {
@@ -185,6 +157,7 @@
             margin-bottom: 8px;
             color: var(--pink);
             font-size: 14px;
+            text-align: left;
         }
 
         input, textarea {
@@ -204,62 +177,21 @@
             box-shadow: 0 0 10px rgba(255, 42, 109, 0.5);
         }
 
-        .btn {
-            background: linear-gradient(45deg, var(--neon-pink), var(--pink));
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 42, 109, 0.4);
-            text-align: center;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 42, 109, 0.6);
-        }
-
-        .btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .btn-stop {
-            background: linear-gradient(45deg, #ff0000, #ff6b6b);
-            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
-        }
-
-        .btn-stop:hover {
-            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.6);
-        }
-
         .status {
             margin-top: 20px;
             padding: 10px;
             border-radius: 8px;
             text-align: center;
             font-size: 14px;
-            display: none;
         }
 
         .status.active {
-            display: block;
             background: rgba(0, 255, 0, 0.1);
             color: #00ff00;
             border: 1px solid rgba(0, 255, 0, 0.3);
         }
 
         .status.error {
-            display: block;
             background: rgba(255, 0, 0, 0.1);
             color: #ff0000;
             border: 1px solid rgba(255, 0, 0, 0.3);
@@ -280,6 +212,7 @@
             text-align: center;
             flex: 1;
             margin: 0 5px;
+            animation: fadeIn 0.5s ease-out;
         }
 
         .stats div span {
@@ -314,58 +247,52 @@
 
         /* Animations */
         @keyframes glow {
-            0% {
-                text-shadow: 0 0 10px rgba(255, 42, 109, 0.3);
-            }
-            100% {
-                text-shadow: 0 0 20px rgba(255, 42, 109, 0.7);
-            }
+            0% { text-shadow: 0 0 10px rgba(255, 42, 109, 0.3); }
+            100% { text-shadow: 0 0 20px rgba(255, 42, 109, 0.7); }
         }
 
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 42, 109, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 42, 109, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 42, 109, 0.4); }
         }
 
         @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .floating {
-            animation: floating 3s ease-in-out infinite;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes floating {
-            0% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
         .hidden {
             display: none !important;
         }
 
+        .welcome-icon {
+            font-size: 60px;
+            color: var(--neon-pink);
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .welcome-message {
+            margin-bottom: 30px;
+            color: var(--light-blue);
+            line-height: 1.6;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
-            .login-container, .dashboard {
+            .welcome-screen, .dashboard {
                 padding: 30px 20px;
                 margin: 30px auto;
             }
@@ -392,27 +319,26 @@
                 <h1>Nova Blaze</h1>
                 <div class="blaze">🔥</div>
             </div>
-            <div class="tagline">RataLife - Webhook Spammer</div>
+            <div class="tagline">x RataLife - Webhook Spammer</div>
         </header>
 
         <main>
-            <div id="login-container" class="login-container floating">
-                <h2>Login with Discord</h2>
-                <p style="text-align: center; margin-bottom: 20px; color: var(--pink);">Access the powerful webhook spammer tool</p>
-                <button id="discord-login" class="discord-btn">
-                    <i class="fab fa-discord"></i> Continue with Discord
+            <div id="welcome-screen" class="welcome-screen float">
+                <div class="welcome-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h2>Webhook Spammer Tool</h2>
+                <p class="welcome-message">
+                    Potente herramienta para enviar mensajes rápidamente a través de webhooks de Discord.
+                    <br><br>
+                    <span style="color: var(--pink);">¡Úsalo responsablemente!</span>
+                </p>
+                <button id="access-btn" class="btn">
+                    <i class="fas fa-lock-open"></i> Acceder al Spammer
                 </button>
             </div>
 
-            <div id="dashboard" class="dashboard hidden floating">
-                <div class="user-info">
-                    <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
-                    <div class="user-details">
-                        <h3 id="username">Welcome</h3>
-                        <p id="user-discriminator">Ready to spam some webhooks</p>
-                    </div>
-                </div>
-
+            <div id="dashboard" class="dashboard hidden float">
                 <h2>Webhook Spammer</h2>
                 
                 <div class="form-group">
@@ -421,27 +347,27 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="message-content">Message Content</label>
-                    <textarea id="message-content" rows="5" placeholder="Enter the message you want to spam"></textarea>
+                    <label for="message-content">Contenido del Mensaje</label>
+                    <textarea id="message-content" rows="5" placeholder="Escribe el mensaje que quieres enviar"></textarea>
                 </div>
 
-                <button id="start-btn" class="btn">Start Spamming (5/sec)</button>
-                <button id="stop-btn" class="btn btn-stop hidden" disabled>Stop (available after 20s)</button>
+                <button id="start-btn" class="btn">Iniciar Spam (5/sec)</button>
+                <button id="stop-btn" class="btn btn-stop hidden" disabled>Detener (disponible después de 20s)</button>
 
                 <div id="status" class="status"></div>
 
                 <div class="stats">
                     <div>
                         <span id="sent-count">0</span>
-                        Messages Sent
+                        Mensajes Enviados
                     </div>
                     <div>
                         <span id="success-rate">100%</span>
-                        Success Rate
+                        Tasa de Éxito
                     </div>
                     <div>
                         <span id="time-running">0s</span>
-                        Time Running
+                        Tiempo Activo
                     </div>
                 </div>
             </div>
@@ -449,25 +375,17 @@
 
         <footer>
             <div class="footer-content">
-                <p>&copy; 2025 NovaBlaze | By Jassmin | Page Developer <a href="https://twentyfox.lat/ale.html" style="color: var(--neon-pink);">RataLife</a></p>
+                <p>&copy; 2025 NovaBlaze ® | By Jassmin | Page Developer <a href="https://twentyfox.lat/ale.html" style="color: var(--neon-pink);">RataLife</a></p>
             </div>
         </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script>
-        // Discord OAuth Configuration
-        const DISCORD_CLIENT_ID = '1390529803752308776';
-        const DISCORD_REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname);
-        const DISCORD_OAUTH_URL = `https://discord.com/oauth2/authorize?client_id=1390529803752308776&response_type=code&redirect_uri=https%3A%2F%2Fwww.novablaze.shop%2Fspammer.html&scope=identify`;
         // DOM Elements
-        const loginContainer = document.getElementById('login-container');
+        const welcomeScreen = document.getElementById('welcome-screen');
         const dashboard = document.getElementById('dashboard');
-        const discordLoginBtn = document.getElementById('discord-login');
-        const userAvatar = document.getElementById('user-avatar');
-        const username = document.getElementById('username');
-        const userDiscriminator = document.getElementById('user-discriminator');
+        const accessBtn = document.getElementById('access-btn');
         const webhookUrlInput = document.getElementById('webhook-url');
         const messageContentInput = document.getElementById('message-content');
         const startBtn = document.getElementById('start-btn');
@@ -592,60 +510,15 @@
             retina_detect: true
         });
 
-        // Check for access token in URL hash
-        function checkAuth() {
-            const hash = window.location.hash.substring(1);
-            const params = new URLSearchParams(hash);
-            const accessToken = params.get('access_token');
+        // Access button click handler
+        accessBtn.addEventListener('click', () => {
+            welcomeScreen.classList.add('hidden');
+            dashboard.classList.remove('hidden');
             
-            if (accessToken) {
-                // Store token in cookie (for demo purposes, in production use HttpOnly secure cookies)
-                Cookies.set('discord_token', accessToken, { expires: 1 });
-                
-                // Remove token from URL
-                window.history.pushState({}, document.title, window.location.pathname);
-                
-                // Fetch user info
-                fetchUserInfo(accessToken);
-            } else if (Cookies.get('discord_token')) {
-                // Token exists in cookie
-                fetchUserInfo(Cookies.get('discord_token'));
-            }
-        }
-
-        // Fetch user info from Discord API
-        function fetchUserInfo(token) {
-            fetch('https://discord.com/api/users/@me', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user info');
-                }
-                return response.json();
-            })
-            .then(user => {
-                // Show dashboard
-                loginContainer.classList.add('hidden');
-                dashboard.classList.remove('hidden');
-                
-                // Set user info
-                userAvatar.src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
-                username.textContent = user.username;
-                userDiscriminator.textContent = `#${user.discriminator}`;
-            })
-            .catch(error => {
-                console.error('Error fetching user info:', error);
-                Cookies.remove('discord_token');
-                showStatus('Failed to authenticate with Discord. Please try again.', 'error');
+            // Animate form elements
+            document.querySelectorAll('.form-group').forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
             });
-        }
-
-        // Discord login button click handler
-        discordLoginBtn.addEventListener('click', () => {
-            window.location.href = DISCORD_OAUTH_URL;
         });
 
         // Start spamming button click handler
@@ -654,17 +527,17 @@
             const messageContent = messageContentInput.value.trim();
             
             if (!webhookUrl) {
-                showStatus('Please enter a valid webhook URL', 'error');
+                showStatus('Por favor ingresa una URL de webhook válida', 'error');
                 return;
             }
             
             if (!messageContent) {
-                showStatus('Please enter a message to spam', 'error');
+                showStatus('Por favor ingresa un mensaje para enviar', 'error');
                 return;
             }
             
             if (!isValidWebhookUrl(webhookUrl)) {
-                showStatus('Invalid webhook URL format', 'error');
+                showStatus('Formato de URL de webhook inválido', 'error');
                 return;
             }
             
@@ -698,7 +571,7 @@
             stopBtn.classList.remove('hidden');
             stopBtn.disabled = true;
             
-            showStatus('Spamming started...', 'active');
+            showStatus('Spamming iniciado...', 'active');
             updateStats();
             
             // Enable stop button after 20 seconds
@@ -714,7 +587,7 @@
                         successCount++;
                     })
                     .catch(error => {
-                        console.error('Error sending webhook:', error);
+                        console.error('Error enviando webhook:', error);
                     })
                     .finally(() => {
                         sentCount++;
@@ -733,7 +606,7 @@
             startBtn.classList.remove('hidden');
             stopBtn.classList.add('hidden');
             
-            showStatus(`Spamming stopped. Sent ${sentCount} messages with ${Math.round((successCount / sentCount) * 100)}% success rate.`, 'active');
+            showStatus(`Spamming detenido. Enviados ${sentCount} mensajes con ${Math.round((successCount / sentCount) * 100)}% de éxito.`, 'active');
         }
 
         // Send a single webhook message
@@ -777,9 +650,6 @@
                 }, 5000);
             }
         }
-
-        // Initialize the app
-        checkAuth();
     </script>
 </body>
 </html>

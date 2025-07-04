@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Configuración de GitHub (DEBES MODIFICAR ESTOS VALORES)
+    // Configuración de GitHub (MODIFICA ESTOS VALORES)
     const GITHUB_CONFIG = {
-        USERNAME: 'RataLittleYT',      // Tu nombre de usuario de GitHub
-        REPO: 'NovaBlaze',            // Nombre del repositorio donde se guardarán los archivos
-        TOKEN: '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',  // Token de acceso personal de GitHub
-        BRANCH: 'main'             // Rama del repositorio (normalmente 'main' o 'master')
+        USERNAME: 'RataLittleYT',
+        REPO: 'NovaBlaze',
+        TOKEN: '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',
+        BRANCH: 'main'
     };
 
-    // Initialize particles.js (igual que antes)
+    // Configuración COMPLETA de particles.js
     particlesJS('particles-js', {
         "particles": {
             "number": {
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "retina_detect": true
     });
 
-    // DOM elements (igual que antes)
+    // DOM elements
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
     const selectFilesBtn = document.getElementById('selectFiles');
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let selectedFile = null;
 
-    // Event listeners (igual que antes)
+    // Event listeners
     selectFilesBtn.addEventListener('click', () => fileInput.click());
     fileInput.addEventListener('change', handleFileSelect);
     dropZone.addEventListener('dragover', handleDragOver);
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     copyBtn.addEventListener('click', copyToClipboard);
     newUploadBtn.addEventListener('click', resetUploader);
 
-    // Functions (las funciones anteriores permanecen iguales hasta handleUpload)
+    // Functions
     function handleFileSelect(e) {
         const files = e.target.files;
         if (files.length > 0) {
@@ -172,30 +172,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function processFile(file) {
-        // Check file size (max 100MB para GitHub, no 200MB)
         if (file.size > 100 * 1024 * 1024) {
-            showError('File size exceeds 100MB limit (GitHub restriction)');
+            showError('El archivo excede el límite de 100MB');
             return;
         }
 
-        // Check file type
         const forbiddenTypes = ['exe', 'scr', 'jar', 'bat', 'cmd', 'msi', 'dll', 'ps1'];
         const fileExt = file.name.split('.').pop().toLowerCase();
         if (forbiddenTypes.includes(fileExt)) {
-            showError('This file type is not allowed for security reasons');
+            showError('Tipo de archivo no permitido');
             return;
         }
 
         selectedFile = file;
         
-        // Display file info
         fileInfo.innerHTML = `
             <p><strong>${file.name}</strong></p>
             <p>${formatFileSize(file.size)}</p>
         `;
         fileInfo.classList.add('show');
-        
-        // Enable upload button
         uploadBtn.disabled = false;
     }
 
@@ -216,31 +211,28 @@ document.addEventListener('DOMContentLoaded', function() {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
-    // FUNCIÓN MODIFICADA PARA USAR GITHUB API
     async function handleUpload() {
         if (!selectedFile) return;
         
-        // Show loading state
         uploadBtn.disabled = true;
         
         try {
-            // Subir el archivo a GitHub
             const uploadResult = await uploadToGitHub(selectedFile);
             
             if (uploadResult.content) {
-                // Construir la URL de descarga directa
-                const fileUrl = `https://raw.githubusercontent.com/${GITHUB_CONFIG.USERNAME}/${GITHUB_CONFIG.REPO}/${GITHUB_CONFIG.BRANCH}/${uploadResult.content.path}`;
+                const fileUrl = `https://github.com/${GITHUB_CONFIG.USERNAME}/${GITHUB_CONFIG.REPO}/raw/${GITHUB_CONFIG.BRANCH}/${uploadResult.content.path}`;
                 
-                // Mostrar resultados
                 resultFileName.textContent = selectedFile.name;
                 resultFileSize.textContent = formatFileSize(selectedFile.size);
                 fileLink.value = fileUrl;
                 
-                // Ocultar cargador, mostrar resultados
+                // Crear botón de descarga
+                createDownloadButton(fileUrl, selectedFile.name);
+                
                 document.querySelector('.upload-container').style.display = 'none';
                 resultContainer.style.display = 'block';
             } else {
-                throw new Error(uploadResult.message || 'Error al subir el archivo');
+                throw new Error(uploadResult.message || 'Error al subir');
             }
         } catch (error) {
             showError(`Error: ${error.message}`);
@@ -248,9 +240,32 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // NUEVA FUNCIÓN PARA SUBIR A GITHUB
+    function createDownloadButton(url, filename) {
+        // Eliminar botón anterior si existe
+        const oldBtn = document.getElementById('dynamicDownloadBtn');
+        if (oldBtn) oldBtn.remove();
+        
+        const downloadBtn = document.createElement('a');
+        downloadBtn.id = 'dynamicDownloadBtn';
+        downloadBtn.href = url;
+        downloadBtn.download = filename;
+        downloadBtn.className = 'btn-download';
+        downloadBtn.innerHTML = '<i class="fas fa-download"></i> Descargar Ahora';
+        downloadBtn.style.display = 'block';
+        downloadBtn.style.marginTop = '15px';
+        downloadBtn.style.background = 'linear-gradient(45deg, #05d9e8, #d300c5)';
+        downloadBtn.style.color = 'white';
+        downloadBtn.style.padding = '12px 20px';
+        downloadBtn.style.borderRadius = '5px';
+        downloadBtn.style.textDecoration = 'none';
+        downloadBtn.style.fontWeight = '600';
+        downloadBtn.style.transition = 'all 0.3s ease';
+        downloadBtn.style.boxShadow = '0 0 15px rgba(5, 217, 232, 0.5)';
+        
+        fileLink.parentNode.insertBefore(downloadBtn, fileLink.nextSibling);
+    }
+
     async function uploadToGitHub(file) {
-        // Generar un nombre de archivo único con el formato que pediste
         const uniqueFilename = generateFileId(file.name);
         
         const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.USERNAME}/${GITHUB_CONFIG.REPO}/contents/${uniqueFilename}`, {
@@ -261,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Accept': 'application/vnd.github.v3+json'
             },
             body: JSON.stringify({
-                message: `Upload ${uniqueFilename} via NovaBlaze Ratbox`,
+                message: `Upload ${uniqueFilename}`,
                 content: await fileToBase64(file),
                 branch: GITHUB_CONFIG.BRANCH
             })
@@ -269,13 +284,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to upload file');
+            throw new Error(errorData.message || 'Error en la subida');
         }
         
         return await response.json();
     }
 
-    // NUEVA FUNCIÓN PARA CONVERTIR FILE A BASE64
     async function fileToBase64(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -289,15 +303,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let result = '';
         
-        // Generate random ID part (8 characters)
         for (let i = 0; i < 8; i++) {
             result += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         
-        // Add dash and random number (1-9)
         result += `-${Math.floor(Math.random() * 9) + 1}`;
         
-        // Add file extension
         const ext = filename.split('.').pop();
         return `${result}.${ext}`;
     }
@@ -306,23 +317,23 @@ document.addEventListener('DOMContentLoaded', function() {
         fileLink.select();
         document.execCommand('copy');
         
-        // Visual feedback
         const originalText = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
         setTimeout(() => {
             copyBtn.innerHTML = originalText;
         }, 2000);
     }
 
     function resetUploader() {
-        // Reset file selection
         selectedFile = null;
         fileInput.value = '';
         fileInfo.innerHTML = '';
         fileInfo.classList.remove('show');
         uploadBtn.disabled = true;
         
-        // Show uploader, hide result
+        const downloadBtn = document.getElementById('dynamicDownloadBtn');
+        if (downloadBtn) downloadBtn.remove();
+        
         document.querySelector('.upload-container').style.display = 'block';
         resultContainer.style.display = 'none';
     }

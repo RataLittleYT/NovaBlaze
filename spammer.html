@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Blaze x RataLife - Webhook Spammer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --neon-pink: #ff2a6d;
+            --pink: #ff7eb9;
+            --black: #0d0221;
+            --dark-blue: #0f084b;
+            --light-blue: #d1f7ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--black);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-user-select: none; 
+            -moz-user-select: none;   
+            -ms-user-select: none;    
+            user-select: none;  
+            scroll-behavior: smooth;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 122, 185, 0.2);
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 42, 109, 0.3);
+            animation: glow 2s infinite alternate;
+        }
+
+        .logo .blaze {
+            font-size: 32px;
+            margin-left: 10px;
+            color: var(--neon-pink);
+            animation: pulse 1.5s infinite;
+        }
+
+        .login-container, .dashboard {
+            background: rgba(15, 8, 75, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(255, 42, 109, 0.2);
+            border: 1px solid rgba(255, 42, 109, 0.1);
+            max-width: 500px;
+            margin: 50px auto;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .login-container::before, .dashboard::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 42, 109, 0.1) 0%, rgba(255, 42, 109, 0) 70%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        .login-container:hover, .dashboard:hover {
+            box-shadow: 0 0 40px rgba(255, 42, 109, 0.4);
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            color: var(--pink);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+            text-shadow: 0 0 10px rgba(255, 42, 109, 0.5);
+        }
+
+        .discord-btn {
+            background: #5865F2;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4);
+        }
+
+        .discord-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(88, 101, 242, 0.6);
+        }
+
+        .discord-btn i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 126, 185, 0.2);
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid var(--neon-pink);
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        .user-details h3 {
+            color: var(--pink);
+            margin-bottom: 5px;
+        }
+
+        .user-details p {
+            color: var(--light-blue);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--pink);
+            font-size: 14px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 126, 185, 0.3);
+            background: rgba(13, 2, 33, 0.7);
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 10px rgba(255, 42, 109, 0.5);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--neon-pink), var(--pink));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 42, 109, 0.4);
+            text-align: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 42, 109, 0.6);
+        }
+
+        .btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-stop {
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+        }
+
+        .btn-stop:hover {
+            box-shadow: 0 8px 20px rgba(255, 0, 0, 0.6);
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+
+        .status.active {
+            display: block;
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        .status.error {
+            display: block;
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff0000;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            color: var(--light-blue);
+            font-size: 14px;
+        }
+
+        .stats div {
+            background: rgba(255, 126, 185, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        .stats div span {
+            display: block;
+            font-size: 18px;
+            color: var(--pink);
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 122, 185, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-content p {
+            color: var(--light-blue);
+            font-size: 14px;
+        }
+
+        .footer-content a {
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-content a:hover {
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        /* Animations */
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px rgba(255, 42, 109, 0.3);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(255, 42, 109, 0.7);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-container, .dashboard {
+                padding: 30px 20px;
+                margin: 30px auto;
+            }
+
+            .logo h1 {
+                font-size: 24px;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+
+            .stats div {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>Nova Blaze</h1>
+                <div class="blaze">🔥</div>
+            </div>
+            <div class="tagline">RataLife - Webhook Spammer</div>
+        </header>
+
+        <main>
+            <div id="login-container" class="login-container floating">
+                <h2>Login with Discord</h2>
+                <p style="text-align: center; margin-bottom: 20px; color: var(--pink);">Access the powerful webhook spammer tool</p>
+                <button id="discord-login" class="discord-btn">
+                    <i class="fab fa-discord"></i> Continue with Discord
+                </button>
+            </div>
+
+            <div id="dashboard" class="dashboard hidden floating">
+                <div class="user-info">
+                    <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
+                    <div class="user-details">
+                        <h3 id="username">Welcome</h3>
+                        <p id="user-discriminator">Ready to spam some webhooks</p>
+                    </div>
+                </div>
+
+                <h2>Webhook Spammer</h2>
+                
+                <div class="form-group">
+                    <label for="webhook-url">Webhook URL</label>
+                    <input type="text" id="webhook-url" placeholder="https://discord.com/api/webhooks/...">
+                </div>
+
+                <div class="form-group">
+                    <label for="message-content">Message Content</label>
+                    <textarea id="message-content" rows="5" placeholder="Enter the message you want to spam"></textarea>
+                </div>
+
+                <button id="start-btn" class="btn">Start Spamming (5/sec)</button>
+                <button id="stop-btn" class="btn btn-stop hidden" disabled>Stop (available after 20s)</button>
+
+                <div id="status" class="status"></div>
+
+                <div class="stats">
+                    <div>
+                        <span id="sent-count">0</span>
+                        Messages Sent
+                    </div>
+                    <div>
+                        <span id="success-rate">100%</span>
+                        Success Rate
+                    </div>
+                    <div>
+                        <span id="time-running">0s</span>
+                        Time Running
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 NovaBlaze | By Jassmin | Page Developer <a href="https://twentyfox.lat/ale.html" style="color: var(--neon-pink);">RataLife</a></p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script>
+        // Discord OAuth Configuration
+        const DISCORD_CLIENT_ID = '1203044053453991936'; // Replace with your actual Discord application ID
+        const DISCORD_REDIRECT_URI = encodeURIComponent(window.location.origin + window.location.pathname);
+        const DISCORD_OAUTH_URL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${DISCORD_REDIRECT_URI}&response_type=token&scope=identify`;
+
+        // DOM Elements
+        const loginContainer = document.getElementById('login-container');
+        const dashboard = document.getElementById('dashboard');
+        const discordLoginBtn = document.getElementById('discord-login');
+        const userAvatar = document.getElementById('user-avatar');
+        const username = document.getElementById('username');
+        const userDiscriminator = document.getElementById('user-discriminator');
+        const webhookUrlInput = document.getElementById('webhook-url');
+        const messageContentInput = document.getElementById('message-content');
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const statusDiv = document.getElementById('status');
+        const sentCountSpan = document.getElementById('sent-count');
+        const successRateSpan = document.getElementById('success-rate');
+        const timeRunningSpan = document.getElementById('time-running');
+
+        // Spammer variables
+        let spamInterval;
+        let startTime;
+        let sentCount = 0;
+        let successCount = 0;
+        let isSpamming = false;
+        let canStop = false;
+
+        // Initialize particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ff2a6d"
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    },
+                    polygon: {
+                        nb_sides: 5
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: false,
+                    anim: {
+                        enable: false,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: false,
+                        speed: 40,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ff7eb9",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    bubble: {
+                        distance: 400,
+                        size: 40,
+                        duration: 2,
+                        opacity: 8,
+                        speed: 3
+                    },
+                    repulse: {
+                        distance: 200,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    },
+                    remove: {
+                        particles_nb: 2
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Check for access token in URL hash
+        function checkAuth() {
+            const hash = window.location.hash.substring(1);
+            const params = new URLSearchParams(hash);
+            const accessToken = params.get('access_token');
+            
+            if (accessToken) {
+                // Store token in cookie (for demo purposes, in production use HttpOnly secure cookies)
+                Cookies.set('discord_token', accessToken, { expires: 1 });
+                
+                // Remove token from URL
+                window.history.pushState({}, document.title, window.location.pathname);
+                
+                // Fetch user info
+                fetchUserInfo(accessToken);
+            } else if (Cookies.get('discord_token')) {
+                // Token exists in cookie
+                fetchUserInfo(Cookies.get('discord_token'));
+            }
+        }
+
+        // Fetch user info from Discord API
+        function fetchUserInfo(token) {
+            fetch('https://discord.com/api/users/@me', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user info');
+                }
+                return response.json();
+            })
+            .then(user => {
+                // Show dashboard
+                loginContainer.classList.add('hidden');
+                dashboard.classList.remove('hidden');
+                
+                // Set user info
+                userAvatar.src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
+                username.textContent = user.username;
+                userDiscriminator.textContent = `#${user.discriminator}`;
+            })
+            .catch(error => {
+                console.error('Error fetching user info:', error);
+                Cookies.remove('discord_token');
+                showStatus('Failed to authenticate with Discord. Please try again.', 'error');
+            });
+        }
+
+        // Discord login button click handler
+        discordLoginBtn.addEventListener('click', () => {
+            window.location.href = DISCORD_OAUTH_URL;
+        });
+
+        // Start spamming button click handler
+        startBtn.addEventListener('click', () => {
+            const webhookUrl = webhookUrlInput.value.trim();
+            const messageContent = messageContentInput.value.trim();
+            
+            if (!webhookUrl) {
+                showStatus('Please enter a valid webhook URL', 'error');
+                return;
+            }
+            
+            if (!messageContent) {
+                showStatus('Please enter a message to spam', 'error');
+                return;
+            }
+            
+            if (!isValidWebhookUrl(webhookUrl)) {
+                showStatus('Invalid webhook URL format', 'error');
+                return;
+            }
+            
+            startSpamming(webhookUrl, messageContent);
+        });
+
+        // Stop spamming button click handler
+        stopBtn.addEventListener('click', () => {
+            if (canStop) {
+                stopSpamming();
+            }
+        });
+
+        // Validate webhook URL format
+        function isValidWebhookUrl(url) {
+            const pattern = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[a-zA-Z0-9_-]+$/;
+            return pattern.test(url);
+        }
+
+        // Start the spamming process
+        function startSpamming(webhookUrl, messageContent) {
+            if (isSpamming) return;
+            
+            isSpamming = true;
+            startTime = Date.now();
+            sentCount = 0;
+            successCount = 0;
+            canStop = false;
+            
+            startBtn.classList.add('hidden');
+            stopBtn.classList.remove('hidden');
+            stopBtn.disabled = true;
+            
+            showStatus('Spamming started...', 'active');
+            updateStats();
+            
+            // Enable stop button after 20 seconds
+            setTimeout(() => {
+                canStop = true;
+                stopBtn.disabled = false;
+            }, 20000);
+            
+            // Send 5 messages per second (200ms interval)
+            spamInterval = setInterval(() => {
+                sendWebhookMessage(webhookUrl, messageContent)
+                    .then(() => {
+                        successCount++;
+                    })
+                    .catch(error => {
+                        console.error('Error sending webhook:', error);
+                    })
+                    .finally(() => {
+                        sentCount++;
+                        updateStats();
+                    });
+            }, 200);
+        }
+
+        // Stop the spamming process
+        function stopSpamming() {
+            if (!isSpamming) return;
+            
+            clearInterval(spamInterval);
+            isSpamming = false;
+            
+            startBtn.classList.remove('hidden');
+            stopBtn.classList.add('hidden');
+            
+            showStatus(`Spamming stopped. Sent ${sentCount} messages with ${Math.round((successCount / sentCount) * 100)}% success rate.`, 'active');
+        }
+
+        // Send a single webhook message
+        function sendWebhookMessage(webhookUrl, content) {
+            return fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    content: content
+                })
+            });
+        }
+
+        // Update statistics display
+        function updateStats() {
+            sentCountSpan.textContent = sentCount;
+            const rate = sentCount > 0 ? Math.round((successCount / sentCount) * 100) : 100;
+            successRateSpan.textContent = `${rate}%`;
+            
+            if (isSpamming) {
+                const seconds = Math.floor((Date.now() - startTime) / 1000);
+                timeRunningSpan.textContent = `${seconds}s`;
+            }
+        }
+
+        // Show status message
+        function showStatus(message, type) {
+            statusDiv.textContent = message;
+            statusDiv.className = 'status';
+            if (type) {
+                statusDiv.classList.add(type);
+            }
+            
+            // Auto-hide after 5 seconds if not an active status
+            if (type !== 'active') {
+                setTimeout(() => {
+                    statusDiv.className = 'status';
+                    statusDiv.textContent = '';
+                }, 5000);
+            }
+        }
+
+        // Initialize the app
+        checkAuth();
+    </script>
+</body>
+</html>

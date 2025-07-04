@@ -1,5 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize particles.js
+    // Configuración de GitHub (DEBES MODIFICAR ESTOS VALORES)
+    const GITHUB_CONFIG = {
+        USERNAME: 'RataLittleYT',      // Tu nombre de usuario de GitHub
+        REPO: 'NovaBlaze',            // Nombre del repositorio donde se guardarán los archivos
+        TOKEN: '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',  // Token de acceso personal de GitHub
+        BRANCH: 'main'             // Rama del repositorio (normalmente 'main' o 'master')
+    };
+
+    // Initialize particles.js (igual que antes)
     particlesJS('particles-js', {
         "particles": {
             "number": {
@@ -106,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "retina_detect": true
     });
 
-    // DOM elements
+    // DOM elements (igual que antes)
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
     const selectFilesBtn = document.getElementById('selectFiles');
@@ -122,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let selectedFile = null;
 
-    // Event listeners
+    // Event listeners (igual que antes)
     selectFilesBtn.addEventListener('click', () => fileInput.click());
     fileInput.addEventListener('change', handleFileSelect);
     dropZone.addEventListener('dragover', handleDragOver);
@@ -132,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     copyBtn.addEventListener('click', copyToClipboard);
     newUploadBtn.addEventListener('click', resetUploader);
 
-    // Functions
+    // Functions (las funciones anteriores permanecen iguales hasta handleUpload)
     function handleFileSelect(e) {
         const files = e.target.files;
         if (files.length > 0) {
@@ -164,9 +172,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function processFile(file) {
-        // Check file size (max 200MB)
-        if (file.size > 200 * 1024 * 1024) {
-            showError('File size exceeds 200MB limit');
+        // Check file size (max 100MB para GitHub, no 200MB)
+        if (file.size > 100 * 1024 * 1024) {
+            showError('File size exceeds 100MB limit (GitHub restriction)');
             return;
         }
 
@@ -208,27 +216,73 @@ document.addEventListener('DOMContentLoaded', function() {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
+    // FUNCIÓN MODIFICADA PARA USAR GITHUB API
     async function handleUpload() {
         if (!selectedFile) return;
         
         // Show loading state
         uploadBtn.disabled = true;
         
-        // Simulate upload delay
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        try {
+            // Subir el archivo a GitHub
+            const uploadResult = await uploadToGitHub(selectedFile);
+            
+            if (uploadResult.content) {
+                // Construir la URL de descarga directa
+                const fileUrl = `https://raw.githubusercontent.com/${GITHUB_CONFIG.USERNAME}/${GITHUB_CONFIG.REPO}/${GITHUB_CONFIG.BRANCH}/${uploadResult.content.path}`;
+                
+                // Mostrar resultados
+                resultFileName.textContent = selectedFile.name;
+                resultFileSize.textContent = formatFileSize(selectedFile.size);
+                fileLink.value = fileUrl;
+                
+                // Ocultar cargador, mostrar resultados
+                document.querySelector('.upload-container').style.display = 'none';
+                resultContainer.style.display = 'block';
+            } else {
+                throw new Error(uploadResult.message || 'Error al subir el archivo');
+            }
+        } catch (error) {
+            showError(`Error: ${error.message}`);
+            uploadBtn.disabled = false;
+        }
+    }
+
+    // NUEVA FUNCIÓN PARA SUBIR A GITHUB
+    async function uploadToGitHub(file) {
+        // Generar un nombre de archivo único con el formato que pediste
+        const uniqueFilename = generateFileId(file.name);
         
-        // Generate result (in a real app, this would be the response from your API)
-        const fileId = generateFileId(selectedFile.name);
-        const fileUrl = `${window.location.origin}/${fileId}`;
+        const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.USERNAME}/${GITHUB_CONFIG.REPO}/contents/${uniqueFilename}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${GITHUB_CONFIG.TOKEN}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/vnd.github.v3+json'
+            },
+            body: JSON.stringify({
+                message: `Upload ${uniqueFilename} via NovaBlaze Ratbox`,
+                content: await fileToBase64(file),
+                branch: GITHUB_CONFIG.BRANCH
+            })
+        });
         
-        // Display result
-        resultFileName.textContent = selectedFile.name;
-        resultFileSize.textContent = formatFileSize(selectedFile.size);
-        fileLink.value = fileUrl;
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to upload file');
+        }
         
-        // Hide uploader, show result
-        document.querySelector('.upload-container').style.display = 'none';
-        resultContainer.style.display = 'block';
+        return await response.json();
+    }
+
+    // NUEVA FUNCIÓN PARA CONVERTIR FILE A BASE64
+    async function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+        });
     }
 
     function generateFileId(filename) {

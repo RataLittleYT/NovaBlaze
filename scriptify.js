@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const GITHUB_CONFIG = {
         USERNAME: 'RataLittleYT',
         REPO: 'NovaBlaze',
-        TOKEN: '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',
+        TOKEN: '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',
         BRANCH: 'main'
     };
 

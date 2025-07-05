@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Configuración de GitHub (MODIFICA ESTOS VALORES)
-    const GITHUB_CONFIG = {
-        USERNAME: 'RataLittleYT',
-        REPO: 'NovaBlaze',
-        TOKEN: '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',
-        BRANCH: 'main'
-    };
+    // Inicialización de KeyAuth
+    const keyauth = new KeyAuth(
+        "RatBoxXD",       // Nombre de tu aplicación en KeyAuth
+        "zAkYjehudN",     // Owner ID de tu panel
+        "1.0",             // Versión
+        "63365d97ef9b38dfa6c51492b25cbd51ee415a9275239f06bc10175001906a36" // Secret (desde el dashboard)
+    );
 
-    // Configuración COMPLETA de particles.js
+    // Configuración de particles.js
     particlesJS('particles-js', {
         "particles": {
             "number": {
@@ -130,6 +130,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let selectedFile = null;
 
+    // Inicializar KeyAuth
+    async function initializeApp() {
+        try {
+            await keyauth.init();
+            if (!keyauth.session) {
+                window.location.href = "login.html";
+            }
+        } catch (error) {
+            showError("Error de autenticación: " + error.message);
+        }
+    }
+
     // Event listeners
     selectFilesBtn.addEventListener('click', () => fileInput.click());
     fileInput.addEventListener('change', handleFileSelect);
@@ -139,6 +151,9 @@ document.addEventListener('DOMContentLoaded', function() {
     uploadBtn.addEventListener('click', handleUpload);
     copyBtn.addEventListener('click', copyToClipboard);
     newUploadBtn.addEventListener('click', resetUploader);
+
+    // Inicializar la aplicación
+    initializeApp();
 
     // Functions
     function handleFileSelect(e) {
@@ -172,8 +187,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function processFile(file) {
-        if (file.size > 100 * 1024 * 1024) {
-            showError('El archivo excede el límite de 100MB');
+        if (file.size > 10 * 1024 * 1024) { // Límite de 10MB de KeyAuth
+            showError('El archivo excede el límite de 10MB');
             return;
         }
 
@@ -217,16 +232,26 @@ document.addEventListener('DOMContentLoaded', function() {
         uploadBtn.disabled = true;
         
         try {
-            const uploadResult = await uploadToGitHub(selectedFile);
-            
-            if (uploadResult.content) {
-                const fileUrl = `https://github.com/${GITHUB_CONFIG.USERNAME}/${GITHUB_CONFIG.REPO}/raw/${GITHUB_CONFIG.BRANCH}/${uploadResult.content.path}`;
+            // Verificar licencia primero
+            const licenseValid = await keyauth.license();
+            if (!licenseValid) {
+                throw new Error('Licencia no válida o expirada');
+            }
+
+            // Subir a KeyAuth
+            const fileBase64 = await fileToBase64(selectedFile);
+            const uploadResult = await keyauth.fileUpload(
+                generateFileId(selectedFile.name),
+                fileBase64.split(',')[1]
+            );
+
+            if (uploadResult.success) {
+                const fileUrl = `https://keyauth.com/api/1.2/file/?fileid=${uploadResult.fileid}&ownerid=TU_OWNER_ID`;
                 
                 resultFileName.textContent = selectedFile.name;
                 resultFileSize.textContent = formatFileSize(selectedFile.size);
                 fileLink.value = fileUrl;
                 
-                // Crear botón de descarga
                 createDownloadButton(fileUrl, selectedFile.name);
                 
                 document.querySelector('.upload-container').style.display = 'none';
@@ -241,7 +266,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function createDownloadButton(url, filename) {
-        // Eliminar botón anterior si existe
         const oldBtn = document.getElementById('dynamicDownloadBtn');
         if (oldBtn) oldBtn.remove();
         
@@ -265,48 +289,10 @@ document.addEventListener('DOMContentLoaded', function() {
         fileLink.parentNode.insertBefore(downloadBtn, fileLink.nextSibling);
     }
 
-    async function uploadToGitHub(file) {
-    const uniqueFilename = generateFileId(file.name);
-    
-    try {
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.USERNAME}/${GITHUB_CONFIG.REPO}/contents/${uniqueFilename}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `token ${GITHUB_CONFIG.TOKEN}`,
-                'Content-Type': 'application/json',
-                'Accept': 'application/vnd.github.v3+json'
-            },
-            body: JSON.stringify({
-                message: `Upload ${uniqueFilename} via NovaBlaze`,
-                content: await fileToBase64(file),
-                branch: GITHUB_CONFIG.BRANCH
-            })
-        });
-
-        const data = await response.json();
-        
-        if (!response.ok) {
-            // Mensajes de error específicos
-            if (response.status === 401) {
-                throw new Error('Token inválido o expirado');
-            } else if (response.status === 403) {
-                throw new Error('Límite de la API alcanzado');
-            } else {
-                throw new Error(data.message || 'Error al subir archivo');
-            }
-        }
-
-        return data;
-    } catch (error) {
-        console.error('Error detallado:', error);
-        throw new Error(`Falló la subida: ${error.message}`);
-    }
-}
-
     async function fileToBase64(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
-            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onload = () => resolve(reader.result);
             reader.onerror = error => reject(error);
             reader.readAsDataURL(file);
         });

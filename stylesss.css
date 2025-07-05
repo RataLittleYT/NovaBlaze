@@ -583,25 +583,20 @@ h1 {
 }
 
 .btn-download {
-    display: inline-block;
+    display: block;
+    margin-top: 15px;
     background: linear-gradient(45deg, #05d9e8, #d300c5);
     color: white;
-    padding: 0.8rem 1.5rem;
+    padding: 12px 20px;
     border-radius: 5px;
-    margin-top: 15px;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
-    text-align: center;
-    width: 100%;
     box-shadow: 0 0 15px rgba(5, 217, 232, 0.5);
+    text-align: center;
 }
 
 .btn-download:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 20px rgba(5, 217, 232, 0.8);
-}
-
-.btn-download i {
-    margin-right: 8px;
 }

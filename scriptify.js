@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     REPO: 'NovaBlaze',
     TOKEN: process.env.GITHUB_TOKEN || '', // Usará el token del entorno
     BRANCH: 'main'
-};
+    };
 
     // Configuración COMPLETA de particles.js
     particlesJS('particles-js', {

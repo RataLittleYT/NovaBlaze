@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Configuración de GitHub (MODIFICA ESTOS VALORES)
     const GITHUB_CONFIG = {
-    USERNAME: 'RataLittleYT',
-    REPO: 'NovaBlaze',
-    TOKEN: process.env.GITHUB_TOKEN || '', // Usará el token del entorno
-    BRANCH: 'main'
+        USERNAME: 'RataLittleYT',
+        REPO: 'NovaBlaze',
+        TOKEN: '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',
+        BRANCH: 'main'
     };
 
     // Configuración COMPLETA de particles.js
